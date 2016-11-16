@@ -1,10 +1,8 @@
-# The Official raywenderlich.com Swift Style Guide.
+# Cardinal Solutions - Swift 3 Style Guide 
 
-This style guide is different from others you may see, because the focus is centered on readability for print and the web. We created this style guide to keep the code in our books, tutorials, and starter kits nice and consistent — even though we have many different authors working on the books.
+This style guide is adapted from the Ray Wenderlich official style guide and adapted to suit internal development purposes on the typical Cardinal Solutions managed project...
 
-Our overarching goals are conciseness, readability, and simplicity.
-
-Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/raywenderlich/objective-c-style-guide) too.
+TODO: provide better description
 
 ## Table of Contents
 
@@ -12,7 +10,6 @@ Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/
 * [Naming](#naming)
   * [Protocols](#protocols)
   * [Enumerations](#enumerations)
-  * [Prose](#prose)
   * [Selectors](#selectors)
   * [Generics](#generics)
   * [Class Prefixes](#class-prefixes)
@@ -23,6 +20,9 @@ Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/
   * [Minimal Imports](#minimal-imports)
 * [Spacing](#spacing)
 * [Comments](#comments)
+  * [Indentation](#indentation)
+  * [Braces](#braces)
+  * [White Space](#white-space)
 * [Classes and Structures](#classes-and-structures)
   * [Use of Self](#use-of-self)
   * [Protocol Conformance](#protocol-conformance)
@@ -47,8 +47,6 @@ Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/
   * [Failing Guards](#failing-guards)
 * [Semicolons](#semicolons)
 * [Parentheses](#parentheses)
-* [Copyright Statement](#copyright-statement)
-* [Smiley Face](#smiley-face)
 * [Style Guide License](#style-guide-license)
 * [Credits](#credits)
 
@@ -97,19 +95,6 @@ let uRLString: UrlString
 let userId: UserId
 ```
 
-For functions and init methods, prefer named parameters for all arguments unless the context is very clear. Include external parameter names if it makes function calls more readable.
-
-```swift
-func dateFromString(dateString: String) -> NSDate
-func convertPointAt(column column: Int, row: Int) -> CGPoint
-func timedAction(afterDelay delay: NSTimeInterval, perform action: SKAction) -> SKAction!
-
-// would be called like this:
-dateFromString("2014-03-14")
-convertPointAt(column: 42, row: 13)
-timedAction(afterDelay: 1.0, perform: someOtherAction)
-```
-
 For methods, follow the standard Apple convention of referring to the first parameter in the method name:
 
 ```swift
@@ -135,22 +120,6 @@ enum Shape {
   case equilateralTriangle
 }
 ```
-
-### Prose
-
-When referring to functions in prose (tutorials, books, comments) include the required parameter names from the caller's perspective or `_` for unnamed parameters. Examples:
-
-> Call `convertPointAt(column:row:)` from your own `init` implementation.
->
-> If you call `dateFromString(_:)` make sure that you provide a string with the format "yyyy-MM-dd".
->
-> If you call `timedAction(afterDelay:perform:)` from `viewDidLoad()` remember to provide an adjusted delay value and an action to perform.
->
-> You shouldn't call the data source method `tableView(_:cellForRowAtIndexPath:)` directly.
-
-This is the same as the `#selector` syntax. When in doubt, look at how Xcode lists the method in the jump bar – our style here matches that.
-
-![Methods in Xcode jump bar](screens/xcode-jump-bar.png)
 
 
 ### Class Prefixes
@@ -215,6 +184,8 @@ Use extensions to organize your code into logical blocks of functionality. Each 
 
 ### Protocol Conformance
 
+ TODO: This is certainly a matter of preference and open to discussion
+
  In particular, when adding protocol conformance to a model, prefer adding a separate extension for the protocol methods. This keeps the related methods grouped together with the protocol and can simplify instructions to add a protocol to a class with its associated methods.
 
 **Preferred:**
@@ -243,7 +214,6 @@ class MyViewController: UIViewController, UITableViewDataSource, UIScrollViewDel
 
 Since the compiler does not allow you to re-declare protocol conformance in a derived class, it is not always required to replicate the extension groups of the base class. This is especially true if the derived class is a terminal class and a small number of methods are being overriden. When to preserve the extension groups is left to the discretion of the author.
 
-For UIKit view controllers, consider grouping lifecycle, custom accessors, and IBAction in separate class extensions.
 
 ### Unused Code
 
@@ -282,14 +252,38 @@ Keep imports minimal. For example, don't import `UIKit` when importing `Foundati
 
 ## Spacing
 
+* Colons always have no space on the left and one space on the right. Exceptions are the ternary operator `? :`, empty dictionary `[:]` and  `#selector` syntax for unnamed parameters `(_:)`.
+
+**Preferred:**
+```swift
+class TestDatabase: Database {
+var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+}
+```
+
+**Not Preferred:**
+```swift
+class TestDatabase : Database {
+var data :[String:CGFloat] = ["A" : 1.2, "B":3.2]
+}
+```
+
+### Indentation 
+
+TODO: This is preference and open to discussion.  Consistency on a team is more important than the approach adopted.
+
 * Indent using 2 spaces rather than tabs to conserve space and help prevent line wrapping. Be sure to set this preference in Xcode and in the Project settings as shown below:
 
   ![Xcode indent settings](screens/indentation.png)
   
   ![Xcode Project settings](screens/project_settings.png)
 
+### Braces
+
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 * Tip: You can re-indent by selecting some code (or ⌘A to select all) and then Control-I (or Editor\Structure\Re-Indent in the menu). Some of the Xcode template code will have 4-space tabs hard coded, so this is a good way to fix that.
+
+* Note: There should be exactly one space between the statement and opening brace.
 
 **Preferred:**
 ```swift
@@ -311,21 +305,46 @@ else {
 }
 ```
 
+### White Space
+
 * There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
 
-* Colons always have no space on the left and one space on the right. Exceptions are the ternary operator `? :`, empty dictionary `[:]` and  `#selector` syntax for unnamed parameters `(_:)`.
+* White space following statements should be limited to no more than one blank line between statements or closing braces.  Nested statements should avoid blank lines between closing braces.
 
 **Preferred:**
 ```swift
-class TestDatabase: Database {
-  var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+guard let user = activeUser else {
+  // exit early
+}
+
+if user.isHappy {
+  if user.hasMoney {
+    // Do something fun
+  } else {
+    // Do something cheap
+  }
+} else {
+  // Do something else
 }
 ```
 
 **Not Preferred:**
 ```swift
-class TestDatabase : Database {
-  var data :[String:CGFloat] = ["A" : 1.2, "B":3.2]
+guard let user = activeUser else {
+  // exit early
+}
+
+
+if user.isHappy {
+  if user.hasMoney {
+    // Do something fun
+  } else {
+    // Do something cheap
+  }
+
+
+} else {
+  // Do something else
 }
 ```
 
@@ -333,16 +352,18 @@ class TestDatabase : Database {
 
 ## Comments
 
-When they are needed, use comments to explain **why** a particular piece of code does something. Comments must be kept up-to-date or deleted.
+TODO: Expand on this with examples
 
-Avoid block comments inline with code, as the code should be as self-documenting as possible. *Exception: This does not apply to those comments used to generate documentation.*
+While code should be self-documenting whenever possible, comments should be used in all type definitions like Classes, Structs, and Protocols to provide clarity.  Apple's guidelines should be followed for using markup to document types using block comments.  [Markup Formatting Reference](https://developer.apple.com/library/content/documentation/Xcode/Reference/xcode_markup_formatting_ref/)
 
 
 ## Classes and Structures
 
+TODO: Expand on this
+
 ### Which one to use?
 
-Remember, structs have [value semantics](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13-XID_144). Use structs for things that do not have an identity. An array that contains [a, b, c] is really the same as another array that contains [a, b, c] and they are completely interchangeable. It doesn't matter whether you use the first array or the second, because they represent the exact same thing. That's why arrays are structs.
+Structs have [value semantics](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13-XID_144). Use structs for things that do not have an identity. An array that contains [a, b, c] is really the same as another array that contains [a, b, c] and they are completely interchangeable. It doesn't matter whether you use the first array or the second, because they represent the exact same thing. That's why arrays are structs.
 
 Classes have [reference semantics](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13-XID_145). Use classes for things that do have an identity or a specific life cycle. You would model a person as a class because two person objects are two different things. Just because two people have the same name and birthdate, doesn't mean they are the same person. But the person's birthdate would be a struct because a date of 3 March 1950 is the same as any other date object for 3 March 1950. The date itself doesn't have an identity.
 
@@ -439,6 +460,8 @@ var diameter: Double {
 ```
 
 ### Final
+
+TODO: Expand on this and discuss private, fileprivate, etc.
 
 Mark classes `final` when inheritance is not intended. Example:
 
@@ -572,6 +595,8 @@ let hypotenuse = side * root2 // what is root2?
 
 ### Static Methods and Variable Type Properties
 
+TODO: Revise this, i.e. structs -> constants, etc.
+
 Static methods and type properties work similarly to global functions and global variables and should be used sparingly. They are useful when functionality is scoped to a particular type or when Objective-C interoperability is required.
 
 ### Optionals
@@ -596,30 +621,6 @@ if let textContainer = self.textContainer {
 
 When naming optional variables and properties, avoid naming them like `optionalString` or `maybeView` since their optional-ness is already in the type declaration.
 
-For optional binding, shadow the original name when appropriate rather than using names like `unwrappedView` or `actualLabel`.
-
-**Preferred:**
-```swift
-var subview: UIView?
-var volume: Double?
-
-// later on...
-if let subview = subview, volume = volume {
-  // do something with unwrapped subview and volume
-}
-```
-
-**Not Preferred:**
-```swift
-var optionalSubview: UIView?
-var volume: Double?
-
-if let unwrappedSubview = optionalSubview {
-  if let realVolume = volume {
-    // do something with unwrappedSubview and realVolume
-  }
-}
-```
 
 ### Struct Initializers
 
@@ -662,6 +663,8 @@ private func makeLocationManager() -> CLLocationManager {
 
 
 ### Type Inference
+
+TODO: Disagree.  Revise this to recommend specifying types whenever possible to favor clarity over conciseness.  Overuse of type imference has a negative impact on build times, particularly on larger projects.
 
 Prefer compact code and let the compiler infer the type for constants or variables of single instances. Type inference is also appropriate for small (non-empty) arrays and dictionaries. When required, specify the specific type such as `CGFloat` or `Int16`.
 
@@ -950,46 +953,6 @@ if (name == "Hello") {
 }
 ```
 
-## Copyright Statement
-
-The following copyright statement should be included at the top of every source
-file:
-
-    /**
-     * Copyright (c) 2016 Razeware LLC
-     *
-     * Permission is hereby granted, free of charge, to any person obtaining a copy
-     * of this software and associated documentation files (the "Software"), to deal
-     * in the Software without restriction, including without limitation the rights
-     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-     * copies of the Software, and to permit persons to whom the Software is
-     * furnished to do so, subject to the following conditions:
-     *
-     * The above copyright notice and this permission notice shall be included in
-     * all copies or substantial portions of the Software.
-     *
-     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-     * THE SOFTWARE.
-     */
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site! It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket `]` is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis `)` creates a half-hearted smile, and thus is not preferred.
-
-**Preferred:**
-```
-:]
-```
-
-**Not Preferred:**
-```
-:)
-```  
 
 ## Style Guide License
 
@@ -1019,34 +982,10 @@ THE SOFTWARE.
 
 ## Credits
 
+Credit goes to the entire Ray Wenderlich team for the original implementation and inspiration for this adaptation:
 [Ray Fix](https://github.com/rayfix) currently maintains this style guide.
-It is a collaborative effort from the most stylish raywenderlich.com team members and its community: 
 
-* [Jawwad Ahmad](https://github.com/jawwad)
-* [Soheil Moayedi Azarpour](https://github.com/moayes)
-* [Scott Berrevoets](https://github.com/Scott90)
-* [Eric Cerney](https://github.com/ecerney)
-* [Sam Davies](https://github.com/sammyd)
-* [Evan Dekhayser](https://github.com/edekhayser)
-* [Jean-Pierre Distler](https://github.com/pdistler)
-* [Colin Eberhardt](https://github.com/ColinEberhardt)
-* [Vadim Eisenberg](https://github.com/vadimeisenbergibm)
-* [Ray Fix](https://github.com/rayfix)
-* [Joshua Greene](https://github.com/JRG-Developer)
-* [Greg Heo](https://github.com/gregheo)
-* [Matthijs Hollemans](https://github.com/hollance)
-* [Erik Kerber](https://github.com/eskerber)
-* [Christopher LaPollo](https://github.com/elephantronic)
-* [Ben Morrow](https://github.com/benmorrow)
-* [Andy Pereira](https://github.com/macandyp)
-* [Ryan Nystrom](https://github.com/rnystrom)
-* [Andy Obusek](https://github.com/obuseme)
-* [Cesare Rocchi](https://github.com/funkyboy)
-* [Ellen Shapiro](https://github.com/designatednerd)
-* [Marin Todorov](https://github.com/icanzilb)
-* [Chris Wagner](https://github.com/cwagdev)
-* [Ray Wenderlich](https://github.com/rwenderlich)
-* [Jack Wu](https://github.com/jackwu95)
+
 
 Hat tip to [Nicholas Waynik](https://github.com/ndubbs) and the [Objective-C Style Guide](https://github.com/raywenderlich/objective-c-style-guide) team!
 
