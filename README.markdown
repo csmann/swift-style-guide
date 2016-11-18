@@ -674,42 +674,24 @@ private func makeLocationManager() -> CLLocationManager {
 
 ### Type Inference
 
-TODO: Disagree.  Revise this to recommend specifying types whenever possible to favor clarity over conciseness.  Overuse of type imference has a negative impact on build times, particularly on larger projects.
+While type inference is a nice feature of Swift it avoids writing a trivial amount of code at the cost of reduced readability, and in some cases, much slower compile times in larger apps.  Following the guidance that clarity is more important than brevity, type inference should be generally avoided.
 
-Prefer compact code and let the compiler infer the type for constants or variables of single instances. Type inference is also appropriate for small (non-empty) arrays and dictionaries. When required, specify the specific type such as `CGFloat` or `Int16`.
 
 **Preferred:**
 ```swift
-let message = "Click the button"
-let currentBounds = computeViewBounds()
-var names = ["Mic", "Sam", "Christine"]
+let message: String = "Click the button"
+let currentBounds: CGRect = computeViewBounds()
+var names: [String] = ["Mic", "Sam", "Christine"]
 let maximumWidth: CGFloat = 106.5
 ```
 
 **Not Preferred:**
 ```swift
-let message: String = "Click the button"
-let currentBounds: CGRect = computeViewBounds()
-let names = [String]()
+let message = "Click the button"
+let currentBounds = computeViewBounds()
+var names = ["Mic", "Sam", "Christine"]
+let maximumWidth = 106.5
 ```
-
-#### Type Annotation for Empty Arrays and Dictionaries
-
-For empty arrays and dictionaries, use type annotation. (For an array or dictionary assigned to a large, multi-line literal, use type annotation.)
-
-**Preferred:**
-```swift
-var names: [String] = []
-var lookup: [String: Int] = [:]
-```
-
-**Not Preferred:**
-```swift
-var names = [String]()
-var lookup = [String: Int]()
-```
-
-**NOTE**: Following this guideline means picking descriptive names is even more important than before.
 
 
 ### Syntactic Sugar
@@ -993,11 +975,7 @@ THE SOFTWARE.
 ## Credits
 
 Credit goes to the entire Ray Wenderlich team for the original implementation and inspiration for this adaptation:
-[Ray Fix](https://github.com/rayfix) currently maintains this style guide.
-
-
-
-Hat tip to [Nicholas Waynik](https://github.com/ndubbs) and the [Objective-C Style Guide](https://github.com/raywenderlich/objective-c-style-guide) team!
+[Ray Fix](https://github.com/rayfix)
 
 We also draw inspiration from Apple’s reference material on Swift:
 
