@@ -1,8 +1,9 @@
-# Cardinal Solutions - Swift 3 Style Guide 
+# Swift 3 Style Guide 
 
-This style guide is adapted from the Ray Wenderlich official style guide and adapted to suit internal development purposes on the typical Cardinal Solutions managed project...
 
-TODO: provide better description
+TODO: update description
+
+TODO: include sections for closures to touch on unowned, weak, nonescaping, etc.
 
 ## Table of Contents
 
@@ -19,10 +20,10 @@ TODO: provide better description
   * [Unused Code](#unused-code)
   * [Minimal Imports](#minimal-imports)
 * [Spacing](#spacing)
-* [Comments](#comments)
   * [Indentation](#indentation)
   * [Braces](#braces)
   * [White Space](#white-space)
+* [Comments](#comments)
 * [Classes and Structures](#classes-and-structures)
   * [Use of Self](#use-of-self)
   * [Protocol Conformance](#protocol-conformance)
@@ -217,9 +218,8 @@ Since the compiler does not allow you to re-declare protocol conformance in a de
 
 ### Unused Code
 
-Unused (dead) code, including Xcode template code and placeholder comments should be removed. An exception is when your tutorial or book instructs the user to use the commented code.
+Unused (dead) code, including Xcode template code and placeholder comments should be removed. Code that is no longer needed should be deleted and not simply commented out.
 
-Aspirational methods not directly associated with the tutorial whose implementation simply calls the super class should also be removed. This includes any empty/unused UIApplicationDelegate methods.
 
 **Not Preferred:**
 ```swift
@@ -281,9 +281,10 @@ TODO: This is preference and open to discussion.  Consistency on a team is more 
 ### Braces
 
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* There should be exactly one space between the statement and opening brace.
+
 * Tip: You can re-indent by selecting some code (or ⌘A to select all) and then Control-I (or Editor\Structure\Re-Indent in the menu). Some of the Xcode template code will have 4-space tabs hard coded, so this is a good way to fix that.
 
-* Note: There should be exactly one space between the statement and opening brace.
 
 **Preferred:**
 ```swift
@@ -303,11 +304,20 @@ if user.isHappy
 else {
   // Do something else
 }
+
+**Not Preferred:**
+```swift
+if user.isHappy{
+  // Do something
+}
+else{
+  // Do something else
+}
 ```
 
 ### White Space
 
-* There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
+* There should be exactly one blank line between methods to aid in visual clarity and organization. White space within methods should separate functionality, though having too many sections within a method is often an indicator that the method should be broken up into smaller methods.
 
 * White space following statements should be limited to no more than one blank line between statements or closing braces.  Nested statements should avoid blank lines between closing braces.
 
@@ -348,7 +358,7 @@ if user.isHappy {
 }
 ```
 
-* No trailing whitespaces at the ends of lines.
+* There should be no trailing white space at the end of a line.
 
 ## Comments
 
